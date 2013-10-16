@@ -33,37 +33,53 @@ class AjaxResponse extends CComponent
     /**
      * Outputs the JSON for AJAX success.
      * @param array $data optional response data.
+     * @param bool $return whether to return the output.
+     * @return mixed response JSON.
      */
-    public function success($data = array())
+    public function success($data = array(), $return = false)
     {
         if (!empty($data)) {
             foreach ($data as $key => $value) {
                 $this->add($key, $value);
             }
         }
-        echo $this->jsonEncode(
+        $json = $this->jsonEncode(
             array(
                 'success' => true,
                 'data' => $this->_data,
             )
         );
+        if (!$return) {
+            echo $json;
+            Yii::app()->end();
+        } else {
+            return $json;
+        }
     }
 
     /**
      * Outputs the JSON for AJAX error.
      * @param string $message error message.
      * @param array $data optional response data.
+     * @param bool $return whether to return the output.
+     * @return mixed response JSON.
      */
-    public function error($message, $data = array())
+    public function error($message, $data = array(), $return = false)
     {
         $data['message'] = $message;
-        echo $this->jsonEncode(
+        $json = $this->jsonEncode(
             array(
                 'success' => false,
                 'error' => $data,
                 'data' => $this->_data,
             )
         );
+        if (!$return) {
+            echo $json;
+            Yii::app()->end();
+        } else {
+            return $json;
+        }
     }
 
     /**
