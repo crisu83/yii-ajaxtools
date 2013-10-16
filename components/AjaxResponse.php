@@ -15,7 +15,16 @@ class AjaxResponse extends CComponent
     /**
      * @var array response data.
      */
-    protected $_data = array();
+    protected $_data;
+
+    /**
+     * Creates a new response.
+     * @param array $data optional response data.
+     */
+    function __construct($data = array())
+    {
+        $this->_data = $data;
+    }
 
     /**
      * Adds data to the response.
@@ -66,12 +75,10 @@ class AjaxResponse extends CComponent
      */
     public function error($message, $data = array(), $return = false)
     {
-        $data['message'] = $message;
         $json = $this->jsonEncode(
             array(
-                'success' => false,
-                'error' => $data,
-                'data' => $this->_data,
+                'error' => $message,
+                'data' => $data,
             )
         );
         if (!$return) {
