@@ -40,6 +40,18 @@ class AjaxResponse extends CComponent
     }
 
     /**
+     * Adds an array of data to the response.
+     * @param array $array the data.
+     * @param bool $override whether to override the value if the key already exists.
+     */
+    public function addArray($array, $override)
+    {
+        foreach ($array as $key => $value) {
+            $this->add($key, $value, $override);
+        }
+    }
+
+    /**
      * Outputs the JSON for AJAX success.
      * @param string $message optional success message.
      * @param array $data optional response data.
